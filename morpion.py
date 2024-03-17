@@ -30,50 +30,50 @@ class Morpion(tkinter.Tk):
 
     def verif_win(self, click_row, click_col, boutons):
         # detec ligne gagnante
-        self.count = 0
-        for self.i in range(3):
-            self.current_bouton = boutons[self.i][click_row]
-            if self.current_bouton["text"] == self.current_player:
-                self.count += 1
-        if self.count == 3:
-            self.winner()
-            return 3
-        # detec ligne gagnante
-        self.count = 0
-        for self.i in range(3):
-            self.current_bouton = boutons[click_col][self.i]
-            if self.current_bouton["text"] == self.current_player:
-                self.count += 1
-        if self.count == 3:
-            self.winner()
-            return 3
-        # detec ligne gagnante
-        self.count = 0
-        for self.i in range(3):
-            self.current_bouton = boutons[self.i][self.i]
-            if self.current_bouton["text"] == self.current_player:
-                self.count += 1
-        if self.count == 3:
+        count = 0
+        for i in range(3):
+            current_bouton = boutons[i][click_row]
+            if current_bouton["text"] == self.current_player:
+                count += 1
+        if count == 3:
             self.winner()
             return 3
         # detec ligne gagnante
         count = 0
-        for self.i in range(3):
-            self.current_bouton = boutons[2 - self.i][self.i]
-            if self.current_bouton["text"] == self.current_player:
-                self.count += 1
-        if self.count == 3:
+        for i in range(3):
+            current_bouton = boutons[click_col][i]
+            if current_bouton["text"] == self.current_player:
+                count += 1
+        if count == 3:
+            self.winner()
+            return 3
+        # detec ligne gagnante
+        count = 0
+        for i in range(3):
+            current_bouton = boutons[i][i]
+            if current_bouton["text"] == self.current_player:
+                count += 1
+        if count == 3:
+            self.winner()
+            return 3
+        # detec ligne gagnante
+        count = 0
+        for i in range(3):
+            current_bouton = boutons[2 - i][i]
+            if current_bouton["text"] == self.current_player:
+                count += 1
+        if count == 3:
             self.winner()
             return 3
 
         if self.win is False:
-            self.count = 0
-            for self.col in range(3):
-                for self.row in range(3):
-                    self.current_bouton = boutons[self.col][self.row]
-                    if self.current_bouton["text"] == "X" or self.current_bouton["text"] == "O":
-                        self.count += 1
-            if self.count == 9:
+            count = 0
+            for col in range(3):
+                for row in range(3):
+                    current_bouton = boutons[col][row]
+                    if current_bouton["text"] == "X" or current_bouton["text"] == "O":
+                        count += 1
+            if count == 9:
                 print('match nul')
                 return 3
         else:
@@ -81,11 +81,11 @@ class Morpion(tkinter.Tk):
 
 
     def place_symb(self, row, column, boutons):
-        self.action = boutons[column][row]
-        if self.action["text"] == "":
-            self.action.config(text=self.current_player)
-            self.fin = self.verif_win(row, column, boutons)
-            if self.fin == 3:
+        action = boutons[column][row]
+        if action["text"] == "":
+            action.config(text=self.current_player)
+            fin = self.verif_win(row, column, boutons)
+            if fin == 3:
                 pass
             self.swi_player()
 
@@ -101,15 +101,15 @@ class Morpion(tkinter.Tk):
         self.label = tk.Label(self, text='Morpion')
         self.label.grid(column=1)
         self.boutons.clear()
-        for self.column in range(3):
-            self.bouton_column = []
-            for self.row in range(3):
+        for column in range(3):
+            bouton_column = []
+            for row in range(3):
                 self.bouton = ttk.Button(
                     self,
                     padding=15,
-                    command=lambda r=self.row, c=self.column: self.place_symb(r, c, self.boutons)
+                    command=lambda r=row, c=column: self.place_symb(r, c, self.boutons)
                     )
-                self.bouton.grid(row=self.row+1, column=self.column)
-                self.bouton_column.append(self.bouton)
-            self.boutons.append(self.bouton_column)
+                self.bouton.grid(row=row+1, column=column)
+                bouton_column.append(self.bouton)
+            self.boutons.append(bouton_column)
 
