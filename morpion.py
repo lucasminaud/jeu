@@ -2,10 +2,10 @@ import tkinter
 import tkinter as tk
 from tkinter import ttk
 
-class Morpion(tkinter.Tk):
-    def __init__(self):
-        super().__init__()
-        self.title('Morpion')
+class Morpion:
+    def __init__(self, main_win):
+        self.main_win = main_win
+        main_win.title('Morpion')
         # variables morpions
         self.current_player = "X"
         self.win = False
@@ -16,7 +16,7 @@ class Morpion(tkinter.Tk):
     def winner(self):
         if self.win is False:
             self.win = True
-            self.label = tk.Label(self, text='le Gagnant est ' + self.current_player)
+            self.main_win.label = tk.Label(self.main_win, text='le Gagnant est ' + self.current_player)
             print(self.current_player, "win")
             self.delete_button_worker(self.boutons)
 
@@ -98,14 +98,14 @@ class Morpion(tkinter.Tk):
                 self.delete_button_worker(cursed_container)
     def morpion(self):
         #mise en place du plateau morpion
-        self.label = tk.Label(self, text='Morpion')
-        self.label.grid(column=1)
+        self.main_win.label = tk.Label(self.main_win, text='Morpion')
+        self.main_win.label.grid(column=1)
         self.boutons.clear()
         for column in range(3):
             bouton_column = []
             for row in range(3):
                 self.bouton = ttk.Button(
-                    self,
+                    self.main_win,
                     padding=15,
                     command=lambda r=row, c=column: self.place_symb(r, c, self.boutons)
                     )
