@@ -56,7 +56,7 @@ class App(tk.Tk):
     def solitaire(self):
         pass
     def quite(self):
-        pass
+        self.destroy()
 
 
 
