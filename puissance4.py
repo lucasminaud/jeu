@@ -4,10 +4,10 @@ from tkinter import ttk
 
 
 
-class Puissance(tkinter.Tk):
-    def __init__(self):
-        super().__init__()
-        self.title('Puissance 4')
+class Puissance:
+    def __init__(self, main_win):
+        self.main_win = main_win
+        main_win.title('Puissance 4')
 
         self.boutons = []
 
