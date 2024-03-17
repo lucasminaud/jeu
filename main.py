@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 import morpion
 import puissance4
+import snake
+import solitaire
 
 class App(tk.Tk):
 
@@ -22,10 +24,10 @@ class App(tk.Tk):
         associations = [
            #["morpion", morpion.Morpion],
            # Shhh, c'est notre petit secret ( ͡° ͜ʖ ͡°)
-           ["morpion", lambda: morpion.Morpion(self)],
+           ["morpion", morpion.Morpion],
             ["puissance 4", puissance4.Puissance],
-            ["snake", self.snake],
-            ["solitaire", self.solitaire],
+            ["snake", snake.Snake],
+            ["solitaire", solitaire.Solitaire],
             ["quiter", self.quite]
         ]
         for name, function in associations:
@@ -41,9 +43,10 @@ class App(tk.Tk):
             self.boutons.append(self.button)
     def lance_jeu(self, fonction):
         print(self.boutons)
+        self.delete_button_worker(self.boutons)
         self.label.destroy()
         self.grid()
-        fonction()
+        fonction(self)
 
     def delete_button_worker(self, cursed_data_structure):
         if isinstance(cursed_data_structure, ttk.Button):
@@ -52,12 +55,10 @@ class App(tk.Tk):
             for cursed_container in cursed_data_structure:
                 self.delete_button_worker(cursed_container)
 
-    def snake(self):
-        pass
-
     def solitaire(self):
         pass
-    def quite(self):
+    def quite(self, fictif):
+        fictif = fictif
         self.destroy()
 
 
