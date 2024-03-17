@@ -20,7 +20,9 @@ class App(tk.Tk):
         self.label.grid()
         #creation des boutons menu
         associations = [
-            ["morpion", morpion.Morpion],
+           #["morpion", morpion.Morpion],
+           # Shhh, c'est notre petit secret ( ͡° ͜ʖ ͡°)
+           ["morpion", lambda: morpion.Morpion(self)],
             ["puissance 4", puissance4.Puissance],
             ["snake", self.snake],
             ["solitaire", self.solitaire],
