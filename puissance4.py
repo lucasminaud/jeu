@@ -15,14 +15,14 @@ class Puissance:
 
     def puissance4(self):
         print("Puissance4")
-        self.label = tk.Label(self, text='Puissance4')
-        self.label.grid(column=3)
+        self.main_win.label = tk.Label(self.main_win, text='puissance4')
+        self.main_win.label.grid(column=3)
         self.boutons.clear()
         for self.column in range(7):
             self.bouton_column = []
             for self.row in range(6):
                 self.bouton = ttk.Button(
-                    self,
+                    self.main_win,
                     padding=20,
                     text="alled",
                     command=print("teutue")
