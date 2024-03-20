@@ -63,11 +63,10 @@ class Morpion:
             count = 0
             for i in range(3):
                 current_bouton = expr(boutons, i)
-                print(current_bouton["image"][0] , str(self.current_player))
-                if current_bouton["image"][0] == str(self.current_player):
-                    count += 1
-            # Si on a trouvé un gagnant, on court-circuite la fonction
-            if count == 3:
+                # Si on est pas sur une série gagnante, on skip jusqu'à la suivante
+                if current_bouton["image"][0] != str(self.current_player):
+                    break
+            else:
                 self.winner()
                 return count
         # Aucun gagnant de trouvé
