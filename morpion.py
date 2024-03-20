@@ -27,7 +27,7 @@ class Morpion:
         if self.win is False:
             self.win = True
             self.main_win.label.destroy()
-            self.main_win.label = tk.Label(self.main_win, text='le Gagnant est ' + self.current_player)
+            self.main_win.label = tk.Label(self.main_win, text='le Gagnant est ' + str(self.current_player))
             print(self.current_player, "win")
             self.delete_button_worker(self.boutons)
             self.main_win.label.grid(column=0)
@@ -52,54 +52,36 @@ class Morpion:
 
     def verif_win(self, click_row, click_col, boutons):
         # detec ligne gagnante
-        count = 0
-        for i in range(3):
-            current_bouton = boutons[i][click_row]
-            if current_bouton["image"] == self.current_player:
-                count += 1
-        if count == 3:
-            self.winner()
-            return 3
-        # detec ligne gagnante
-        count = 0
-        for i in range(3):
-            current_bouton = boutons[click_col][i]
-            if current_bouton["image"] == self.current_player:
-                count += 1
-        if count == 3:
-            self.winner()
-            return 3
-        # detec ligne gagnante
-        count = 0
-        for i in range(3):
-            current_bouton = boutons[i][i]
-            if current_bouton["image"] == self.current_player:
-                count += 1
-        if count == 3:
-            self.winner()
-            return 3
-        # detec ligne gagnante
-        count = 0
-        for i in range(3):
-            current_bouton = boutons[2 - i][i]
-            if current_bouton["image"] == self.current_player:
-                count += 1
-        if count == 3:
-            self.winner()
-            return 3
-
-        if self.win is False:
+        i=0
+        checks = (
+            lambda x, y: x[y][click_row],
+            lambda x, y: x[click_col][y],
+            lambda x, y: x[y][y],
+            lambda x, y: x[2-y][y],
+        )
+        for expr in checks:
+            count = 0
+            for i in range(3):
+                current_bouton = expr(boutons, i)
+                print(current_bouton["image"][0] , str(self.current_player))
+                if current_bouton["image"][0] == str(self.current_player):
+                    count += 1
+            # Si on a trouvé un gagnant, on court-circuite la fonction
+            if count == 3:
+                self.winner()
+                return count
+        # Aucun gagnant de trouvé
+        else:
             count = 0
             for col in range(3):
                 for row in range(3):
                     current_bouton = boutons[col][row]
-                    if current_bouton["image"] == self.main_win.raton or current_bouton["image"] == self.main_win.tacos:
+                    if current_bouton["image"][0] != str(self.main_win.blanc):
                         count += 1
+            # Toutes les cases sont remplies
             if count == 9:
                 print('match nul')
-                return 3
-        else:
-            return 3
+        return 3
 
 
     def place_symb(self, row, column, boutons):
