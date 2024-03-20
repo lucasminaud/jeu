@@ -8,10 +8,18 @@ class Morpion:
         self.main_win = main_win
         main_win.title('Morpion')
         # variables morpions
-        self.current_player = "X"
+
         self.win = False
         self.boutons = []
+        #integration des images
+        image_attente = Image.open("./assets/blanc.png").resize((150, 200), Image.NEAREST)
+        imageR = Image.open("./assets/raton.jpg").resize((150, 200), Image.NEAREST)
+        imageT = Image.open("./assets/tacos.jpg").resize((150, 200), Image.NEAREST)
+        main_win.blanc = ImageTk.PhotoImage(image=image_attente)
+        main_win.raton = ImageTk.PhotoImage(imageR)
+        main_win.tacos = ImageTk.PhotoImage(imageT)
 
+        self.current_player = main_win.raton
 
         self.morpion()
 
@@ -24,29 +32,22 @@ class Morpion:
             self.delete_button_worker(self.boutons)
             self.main_win.label.grid(column=0)
 
-
-            image = Image.open("./assets/raton.jpg")
-            image = image.resize((400,300), Image.NEAREST)
-
             self.bouton = ttk.Button(
                 self.main_win,
                 text="teuteu",
                 command=self.main_win.main,
-                image=ImageTk.PhotoImage(image)
+                image=self.current_player
             )
-            canvas = Canvas(self.bouton, width=400, height=300)
-            canvas.image = ImageTk.PhotoImage(image)
-            canvas.create_image(0, 0, image=canvas.image, anchor='nw')
 
             self.bouton.grid()
 
 
 
     def swi_player(self):
-        if self.current_player == "X":
-            self.current_player = "O"
+        if self.current_player == self.main_win.raton:
+            self.current_player = self.main_win.tacos
         else:
-            self.current_player = "X"
+            self.current_player = self.main_win.raton
 
 
     def verif_win(self, click_row, click_col, boutons):
@@ -54,7 +55,7 @@ class Morpion:
         count = 0
         for i in range(3):
             current_bouton = boutons[i][click_row]
-            if current_bouton["text"] == self.current_player:
+            if current_bouton["image"] == self.current_player:
                 count += 1
         if count == 3:
             self.winner()
@@ -63,7 +64,7 @@ class Morpion:
         count = 0
         for i in range(3):
             current_bouton = boutons[click_col][i]
-            if current_bouton["text"] == self.current_player:
+            if current_bouton["image"] == self.current_player:
                 count += 1
         if count == 3:
             self.winner()
@@ -72,7 +73,7 @@ class Morpion:
         count = 0
         for i in range(3):
             current_bouton = boutons[i][i]
-            if current_bouton["text"] == self.current_player:
+            if current_bouton["image"] == self.current_player:
                 count += 1
         if count == 3:
             self.winner()
@@ -81,7 +82,7 @@ class Morpion:
         count = 0
         for i in range(3):
             current_bouton = boutons[2 - i][i]
-            if current_bouton["text"] == self.current_player:
+            if current_bouton["image"] == self.current_player:
                 count += 1
         if count == 3:
             self.winner()
@@ -92,7 +93,7 @@ class Morpion:
             for col in range(3):
                 for row in range(3):
                     current_bouton = boutons[col][row]
-                    if current_bouton["text"] == "X" or current_bouton["text"] == "O":
+                    if current_bouton["image"] == self.main_win.raton or current_bouton["image"] == self.main_win.tacos:
                         count += 1
             if count == 9:
                 print('match nul')
@@ -104,7 +105,7 @@ class Morpion:
     def place_symb(self, row, column, boutons):
         action = boutons[column][row]
         if action["text"] == "":
-            action.config(text=self.current_player)
+            action.config(image=self.current_player)
             fin = self.verif_win(row, column, boutons)
             if fin == 3:
                 pass
@@ -128,7 +129,8 @@ class Morpion:
                 self.bouton = ttk.Button(
                     self.main_win,
                     padding=15,
-                    command=lambda r=row, c=column: self.place_symb(r, c, self.boutons)
+                    command=lambda r=row, c=column: self.place_symb(r, c, self.boutons),
+                    image=self.main_win.blanc
                     )
                 self.bouton.grid(row=row+1, column=column)
                 bouton_column.append(self.bouton)
