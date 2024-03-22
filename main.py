@@ -5,6 +5,7 @@ import puissance4
 import snake
 import solitaire
 
+
 class App(tk.Tk):
 
     def __init__(self):
@@ -14,17 +15,20 @@ class App(tk.Tk):
         # configure the root window
         self.title('My Awesome App')
 
+        self.delete_button_worker(self.boutons),
         self.main()
 
     def main(self):
+        #nettoyage de la page²²
+        self.delete_button_worker(self.boutons)
+        self.grid()
         # label pour menu
         self.label = ttk.Label(self, text='Bienvenue')
         self.label.grid()
-        #creation des boutons menu
+        # creation des boutons menu
         associations = [
-           #["morpion", morpion.Morpion],
-           # Shhh, c'est notre petit secret ( ͡° ͜ʖ ͡°)
-           ["morpion", morpion.Morpion],
+            # Shhh, c'est notre petit secret ( ͡° ͜ʖ ͡°)
+            ["morpion", morpion.Morpion],
             ["puissance 4", puissance4.Puissance],
             ["snake", snake.Snake],
             ["solitaire", solitaire.Solitaire],
@@ -37,10 +41,11 @@ class App(tk.Tk):
                 padding=20,
                 command=lambda x=function: self.lance_jeu(x)
             )
-            #affichage des boutons du menu
+            # affichage des boutons du menu
             self.button.grid()
-            #memorisation des boutons pour action
+            # memorisation des boutons pour action
             self.boutons.append(self.button)
+
     def lance_jeu(self, fonction):
         print(self.boutons)
         self.delete_button_worker(self.boutons)
@@ -57,10 +62,10 @@ class App(tk.Tk):
 
     def solitaire(self):
         pass
+
     def quite(self, fictif):
         fictif = fictif
         self.destroy()
-
 
 
 if __name__ == '__main__':

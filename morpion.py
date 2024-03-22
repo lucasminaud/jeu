@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk, Canvas
 from PIL import ImageTk, Image
 
+
 class Morpion:
     def __init__(self, main_win):
         self.main_win = main_win
@@ -11,7 +12,7 @@ class Morpion:
 
         self.win = False
         self.boutons = []
-        #integration des images
+        # integration des images
         image_attente = Image.open("./assets/blanc.png").resize((150, 200), Image.NEAREST)
         imageR = Image.open("./assets/raton.jpg").resize((150, 200), Image.NEAREST)
         imageT = Image.open("./assets/tacos.jpg").resize((150, 200), Image.NEAREST)
@@ -20,6 +21,7 @@ class Morpion:
         main_win.tacos = ImageTk.PhotoImage(imageT)
 
         self.current_player = main_win.raton
+        self.joueurs = "Raton"
 
         self.morpion()
 
@@ -27,37 +29,35 @@ class Morpion:
         if self.win is False:
             self.win = True
             self.main_win.label.destroy()
-            self.main_win.label = tk.Label(self.main_win, text='le Gagnant est ' + str(self.current_player))
+            self.main_win.label = tk.Label(self.main_win, text='le Gagnant est ' + self.joueurs + '!')
             print(self.current_player, "win")
             self.delete_button_worker(self.boutons)
             self.main_win.label.grid(column=0)
 
             self.bouton = ttk.Button(
                 self.main_win,
-                text="teuteu",
                 command=self.main_win.main,
                 image=self.current_player
             )
 
             self.bouton.grid()
 
-
-
     def swi_player(self):
         if self.current_player == self.main_win.raton:
             self.current_player = self.main_win.tacos
+            self.joueurs = "The BIG BOSS Tacos"
         else:
             self.current_player = self.main_win.raton
-
+            self.joueurs = "Raton"
 
     def verif_win(self, click_row, click_col, boutons):
         # detec ligne gagnante
-        i=0
+        i = 0
         checks = (
             lambda x, y: x[y][click_row],
             lambda x, y: x[click_col][y],
             lambda x, y: x[y][y],
-            lambda x, y: x[2-y][y],
+            lambda x, y: x[2 - y][y],
         )
         for expr in checks:
             count = 0
@@ -80,12 +80,15 @@ class Morpion:
             # Toutes les cases sont remplies
             if count == 9:
                 print('match nul')
-        return 3
+                self.joueurs = "The BIG BOSS Tacos QUAND MEME"
+                self.current_player = self.main_win.tacos
+                self.winner()
 
+        return 3
 
     def place_symb(self, row, column, boutons):
         action = boutons[column][row]
-        if action["text"] == "":
+        if action["image"][0] == str(self.main_win.blanc):
             action.config(image=self.current_player)
             fin = self.verif_win(row, column, boutons)
             if fin == 3:
@@ -99,8 +102,9 @@ class Morpion:
         else:
             for cursed_container in cursed_data_structure:
                 self.delete_button_worker(cursed_container)
+
     def morpion(self):
-        #mise en place du plateau morpion
+        # mise en place du plateau morpion
         self.main_win.label = tk.Label(self.main_win, text='Morpion')
         self.main_win.label.grid(column=1)
         self.boutons.clear()
@@ -112,8 +116,7 @@ class Morpion:
                     padding=15,
                     command=lambda r=row, c=column: self.place_symb(r, c, self.boutons),
                     image=self.main_win.blanc
-                    )
-                self.bouton.grid(row=row+1, column=column)
+                )
+                self.bouton.grid(row=row + 1, column=column)
                 bouton_column.append(self.bouton)
             self.boutons.append(bouton_column)
-
