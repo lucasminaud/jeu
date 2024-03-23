@@ -44,10 +44,10 @@ class Puissance:
 
 
 
-    def place_symb(self, row, column, boutons):
+    def place_symb(self,column, row, boutons):
         for i in range(6):
             rowP = 5-i
-            action = boutons[column][rowP]
+            action = boutons[rowP][column]
             if action["image"][0] == str(self.main_win.blanc):
                 action.config(image=self.current_player)
                 fin = self.verif_win(rowP, column, boutons)
@@ -63,14 +63,14 @@ class Puissance:
         self.main_win.label = tk.Label(self.main_win, text='puissance4')
         self.main_win.label.grid(column=3)
         self.boutons.clear()
-        for column in range(7):
+        for row in range(6):
             self.bouton_column = []
-            for row in range(6):
+            for column in range(7):
                 self.bouton = ttk.Button(
                     self.main_win,
                     text=str(i),
                     padding=15,
-                    command=lambda r=row, c=column: self.place_symb(r, c, self.boutons),
+                    command=lambda r=row, c=column: self.place_symb(c, r, self.boutons),
                     image=self.main_win.blanc
                 )
                 i += 1
