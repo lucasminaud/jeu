@@ -19,7 +19,7 @@ class App(tk.Tk):
         self.main()
 
     def main(self):
-        #nettoyage de la page²²
+        #nettoyage de la page
         self.delete_button_worker(self.boutons)
         self.grid()
         # label pour menu
