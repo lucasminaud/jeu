@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 import morpion
-import puissance4
+#import puissance4  # TODO: delete
+import puissance4_interface as p4_UI
 import snake
 import solitaire
 
@@ -29,7 +30,8 @@ class App(tk.Tk):
         associations = [
             # Shhh, c'est notre petit secret ( ͡° ͜ʖ ͡°)
             ["morpion", morpion.Morpion],
-            ["puissance 4", puissance4.Puissance],
+            ["puissance 4", self.display_p4],
+            #["puissance 4", puissance4.Puissance],  # TODO: del
             ["snake", snake.Snake],
             ["solitaire", solitaire.Solitaire],
             ["quiter", self.quite]
@@ -47,11 +49,14 @@ class App(tk.Tk):
             self.boutons.append(self.button)
 
     def lance_jeu(self, fonction):
-        print(self.boutons)
         self.delete_button_worker(self.boutons)
         self.label.destroy()
         self.grid()
         fonction(self)
+
+    def display_p4(self, moncul):
+        p4 = p4_UI.P4_interface(self)
+        p4.grid()
 
     def delete_button_worker(self, cursed_data_structure):
         if isinstance(cursed_data_structure, ttk.Button):
