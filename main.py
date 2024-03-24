@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-import morpion
+import morpion_interface as morp_UI
 #import puissance4  # TODO: delete
 import puissance4_interface as p4_UI
 import snake
@@ -29,7 +29,7 @@ class App(tk.Tk):
         # creation des boutons menu
         associations = [
             # Shhh, c'est notre petit secret ( ͡° ͜ʖ ͡°)
-            ["morpion", morpion.Morpion],
+            ["morpion", self.display_morpion],
             ["puissance 4", self.display_p4],
             #["puissance 4", puissance4.Puissance],  # TODO: del
             ["snake", snake.Snake],
@@ -54,6 +54,9 @@ class App(tk.Tk):
         self.grid()
         fonction(self)
 
+    def display_morpion(self, monculv2):
+        morp = morp_UI.Morpion_interface(self)
+        morp.grid()
     def display_p4(self, moncul):
         p4 = p4_UI.P4_interface(self)
         p4.grid()
