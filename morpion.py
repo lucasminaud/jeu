@@ -67,6 +67,7 @@ class Morpion:
                 if current_bouton["image"][0] != str(self.current_player):
                     break
             else:
+                print(count)
                 self.winner()
                 return count
         # Aucun gagnant de trouvé

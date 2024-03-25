@@ -42,23 +42,26 @@ class Morpion_interface(tk.Frame):
                 button.destroy()
 
     def jouer_coup(self, player, column, row):
-        self.moteur.jouer_coup(player, column, row)
-        if self.moteur.jouer_coup(player, column, row) == 2:
-            print(self.moteur.jouer_coup)
-        elif self.moteur.jouer_coup(player, column, row) == 0:
-            pass
+        #QUENTIN EXPLIQUE-MOI
+        #self.moteur.jouer_coup(player, column, row)
+        if self.moteur.jouer_coup(player, column, row) == True:
+            self.win()
         else:
             self.create_buttons()
 
     def win(self):
         self.empty_board()
-        image = self.get_corresponding_image(self.moteur.current_player)
+        self.label.destroy()
+        self.label = tk.Label(self, text='le Gagnant est ' + self.moteur.winner.name + '!')
+        self.label.grid()
+        image = self.get_corresponding_image(self.moteur.winner)
         button = ttk.Button(
             self,
             text='moncul',
             padding=15,
             image=image,
         )
+        button.grid()
 
     def create_buttons(self):
         """(Ré)génère tout le plateau de jeu"""
