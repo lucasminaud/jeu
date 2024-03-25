@@ -32,6 +32,7 @@ class Morpion_moteur:
         print("Le joueur")
 
     def verif_win(self, player: Player, click_row, click_col) -> bool:
+        """verification de la victoire"""
         # detec ligne gagnante
         i = 0
         checks = (
@@ -47,6 +48,7 @@ class Morpion_moteur:
                 if current_bouton != player:
                     break
             else:
+                #si elle est bonne, on remet le bon joueur car il a switch auto et on l'enregistre dans winner
                 self.switch_player()
                 self.winner = self.current_player
                 return True
@@ -58,10 +60,10 @@ class Morpion_moteur:
                     current_bouton = self.board[col][row]
                     if current_bouton != player.AUCUN:
                         count += 1
-            # Toutes les cases sont remplies
+            # Toutes les cases sont remplies = MATCH NUL
             if count == 9:
                 print('match nul')
                 return True
             else:
+                #si pas de gagnant et pas de match nul, on continu la partie
                 return False
-

@@ -42,6 +42,7 @@ class Morpion_interface(tk.Frame):
                 button.destroy()
 
     def jouer_coup(self, player, column, row):
+        """action si un des boutons est selectionné"""
         #QUENTIN EXPLIQUE-MOI
         #self.moteur.jouer_coup(player, column, row)
         if self.moteur.jouer_coup(player, column, row) == True:
@@ -50,6 +51,7 @@ class Morpion_interface(tk.Frame):
             self.create_buttons()
 
     def win(self):
+        """création de l'interface de victoire"""
         self.empty_board()
         self.label.destroy()
         self.label = tk.Label(self, text='le Gagnant est ' + self.moteur.winner.name + '!')
@@ -57,7 +59,7 @@ class Morpion_interface(tk.Frame):
         image = self.get_corresponding_image(self.moteur.winner)
         button = ttk.Button(
             self,
-            text='moncul',
+            text='WINNER',
             padding=15,
             image=image,
         )
