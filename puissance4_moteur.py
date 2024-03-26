@@ -67,11 +67,10 @@ class P4_moteur:
         directionD = Coords(1, 0)
         directionG = Coords(-1, 0)
         position = Coords(click_col, current_row)
-        countH = self.recursion(position, directionD, player)
+        countH = self.recursion(position+directionD, directionD, player)
+        countH += self.recursion(position+directionG, directionG, player)
         print(countH)
-        countH += self.recursion(position, directionG, player)
-        print(countH)
-        if countH > 4:
+        if countH > 2:
             self.winner = self.current_player
             return True
         return False
