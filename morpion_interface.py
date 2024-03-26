@@ -100,6 +100,7 @@ class Morpion_interface(tk.Frame):
             self.create_buttons()
         else: #egal à 2
             self.root.main()
+            self.destroy()
 
     def create_buttons(self):
         """(Ré)génère tout le plateau de jeu"""
