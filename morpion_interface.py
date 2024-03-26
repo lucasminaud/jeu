@@ -1,5 +1,4 @@
 import tkinter as tk
-import time
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
@@ -26,7 +25,6 @@ class Morpion_interface(tk.Frame):
         self.root.blanc = ImageTk.PhotoImage(image=image_attente)
         self.root.raton = ImageTk.PhotoImage(imageR)
         self.root.tacos = ImageTk.PhotoImage(imageT)
-
         self.create_buttons()
 
     def get_corresponding_image(self, player) -> ImageTk.PhotoImage:

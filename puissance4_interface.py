@@ -1,5 +1,6 @@
 import tkinter
 import tkinter as tk
+from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
 from puissance4_moteur import *
@@ -12,6 +13,7 @@ class P4_interface(tk.Frame):
         self.root = root
         self.moteur = P4_moteur()
         self.root.title('Puissance 4')
+        self.winner = Player.AUCUN
 
         self.board: list[list[ttk.Button]] = []
         self.label = tk.Label(self, text='Puissance 4')
@@ -43,8 +45,64 @@ class P4_interface(tk.Frame):
                 button.destroy()
 
     def jouer_coup(self, player, column):
-         self.moteur.jouer_coup(player, column)
-         self.create_buttons()
+        if self.moteur.jouer_coup(player, column) == True:
+            self.win()
+        else:
+            self.create_buttons()
+
+
+
+    def win(self):
+        """création de l'interface de victoire"""
+        self.empty_board()
+        self.label.destroy()
+        self.label = tk.Label(self, text='le Gagnant est ' + self.moteur.winner.name + '!')
+        self.label.grid()
+
+        image = self.get_corresponding_image(self.moteur.winner)
+        self.afficheWIN = Canvas(
+            self,
+            width=170,
+            height=200,
+            bg='ivory'
+        )
+        self.afficheWIN.create_image(10, 10, anchor=NW, image=image)
+
+        self.afficheWIN.grid(column=1)
+
+        self.rejouer = ttk.Button(
+            self,
+            text="REJOUER",
+            padding=20,
+            command=lambda x= 1: self.end_game(x)
+        )
+        # affichage des boutons du menu
+        self.rejouer.grid(column=0, row=2)
+
+        self.menu = ttk.Button(
+            self,
+            text="MENU",
+            padding=20,
+            command=lambda x= 2: self.end_game(x)
+        )
+        # affichage des boutons du menu
+        self.menu.grid(column=2, row=2)
+
+    def end_game(self, choix):
+        self.moteur.reset_board()
+        self.afficheWIN.destroy()
+        self.rejouer.destroy()
+        self.menu.destroy()
+        self.label.destroy()
+        self.empty_board()
+        if choix == 1:
+            self.label = tk.Label(self, text='Morpion')
+            self.label.grid(column=1)
+            self.create_buttons()
+        else: #egal à 2
+            self.root.main()
+
+
 
     def create_buttons(self):
         """(Ré)génère tout le plateau de jeu"""
@@ -58,7 +116,7 @@ class P4_interface(tk.Frame):
                     text='moncul',
                     padding=15,
                     image=image,
-                    command=lambda column_index=j: self.jouer_coup(self.moteur.current_player, column_index),
+                    command=lambda column_index=j,: self.jouer_coup(self.moteur.current_player, column_index),
                 )
                 column.append(button)
                 button.grid(row=i+1, column=j)
