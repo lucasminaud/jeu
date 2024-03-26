@@ -101,6 +101,7 @@ class P4_interface(tk.Frame):
             self.create_buttons()
         else: #egal à 2
             self.root.main()
+            self.destroy()
 
 
 

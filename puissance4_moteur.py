@@ -53,33 +53,65 @@ class P4_moteur:
 
     def verif_win(self, player: Player, click_col : int, current_row : int) -> bool:
         """verifie si le pion poser créé une ligne gagnante"""
-        #verification de victoire VERTICAL
-        print("click sa mere")
-        count = 1
-        for k in range(1,4):
-            if current_row+k <=5 and self.board[current_row + k][click_col] == player:
-                count += 1
-        if count > 3:
-            self.winner = self.current_player
-            return True
-        #verif horizontal par recurtion
+        position = Coords(click_col, current_row)
+
+        #verification de victoire VERTICAL (first methode)
+        #####
+        #print("click sa mere")
+        #count = 1
+        #for k in range(1,4):
+        #    if current_row+k <=5 and self.board[current_row + k][click_col] == player:
+        #        count += 1
+        #if count > 3:
+        #    self.winner = self.current_player
+        #    return True
+        #####
+
+        #on defini les directions pour les diferentes verifs
+        # verif vertical
+        countV = 0
+        directionV = Coords(0, 1)
+
+        #verif horizontal
         countH = 0
         directionD = Coords(1, 0)
         directionG = Coords(-1, 0)
-        position = Coords(click_col, current_row)
-        countH = self.recursion(position+directionD, directionD, player)
-        countH += self.recursion(position+directionG, directionG, player)
-        print(countH)
-        if countH > 2:
-            self.winner = self.current_player
-            return True
+
+        #verif diagonal haut bas
+        countHB = 0
+        dirDiagHBD = Coords(1, -1)
+        dirDiagHBG = Coords(-1, 1)
+
+        # verif diagonal bas haut
+        countBH = 0
+        dirDiagBHD = Coords(1, 1)
+        dirDiagBHG = Coords(-1, -1)
+
+        # on associe a compte avec la direction
+        associations = [
+            [countV, directionV],
+            [countH, directionD],
+            [countH, directionG],
+            [countHB, dirDiagHBD],
+            [countHB, dirDiagHBG],
+            [countBH, dirDiagBHD],
+            [countBH, dirDiagBHG],
+        ]
+        #on applique la recursion sur toutes les associations
+        for count, direction in associations:
+            count += self.recursion(position + direction, direction, player)
+            if count > 2:
+                self.winner = self.current_player
+                return True
         return False
 
     def recursion(self, position: Coords, direction: Coords, player: Player) -> int:
+        """permet de regarder le pion dans la direction qu'on lui indique et compte combiens sont identiques de la direction"""
         if position.outside([0, 6], [0, 5]) or position.get_cell(self.board) != player:
             return 0
         new_pos = position + direction
         return 1 + self.recursion(new_pos, direction, player)
 
     def reset_board(self):
+        """reinitialise le plateau"""
         self.board = [[Player.AUCUN for i in range(7)] for j in range(6)]
