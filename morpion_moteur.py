@@ -67,3 +67,6 @@ class Morpion_moteur:
             else:
                 #si pas de gagnant et pas de match nul, on continu la partie
                 return False
+
+    def reset_board(self):
+        self.board = [[Player.AUCUN for i in range(3)] for j in range(3)]

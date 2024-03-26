@@ -16,13 +16,9 @@ class App(tk.Tk):
         # configure the root window
         self.title('My Awesome App')
 
-        self.delete_button_worker(self.boutons),
         self.main()
 
     def main(self):
-        #nettoyage de la page
-        self.delete_button_worker(self.boutons)
-        self.grid()
         # label pour menu
         self.label = ttk.Label(self, text='Bienvenue')
         self.label.grid()

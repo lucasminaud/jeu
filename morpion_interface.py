@@ -1,6 +1,9 @@
 import tkinter as tk
+import time
+from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
+
 from morpion_moteur import *
 
 
@@ -17,9 +20,9 @@ class Morpion_interface(tk.Frame):
         self.label.grid(column=1)
 
         # integration des images
-        image_attente = Image.open("./assets/blanc.png").resize((30, 40), Image.NEAREST)
-        imageR = Image.open("./assets/raton.jpg").resize((30, 40), Image.NEAREST)
-        imageT = Image.open("./assets/tacos.jpg").resize((30, 40), Image.NEAREST)
+        image_attente = Image.open("./assets/blanc.png").resize((150, 180), Image.NEAREST)
+        imageR = Image.open("./assets/raton.jpg").resize((150, 180), Image.NEAREST)
+        imageT = Image.open("./assets/tacos.jpg").resize((150, 180), Image.NEAREST)
         self.root.blanc = ImageTk.PhotoImage(image=image_attente)
         self.root.raton = ImageTk.PhotoImage(imageR)
         self.root.tacos = ImageTk.PhotoImage(imageT)
@@ -56,14 +59,49 @@ class Morpion_interface(tk.Frame):
         self.label.destroy()
         self.label = tk.Label(self, text='le Gagnant est ' + self.moteur.winner.name + '!')
         self.label.grid()
+
         image = self.get_corresponding_image(self.moteur.winner)
-        button = ttk.Button(
+        self.afficheWIN = Canvas(
             self,
-            text='WINNER',
-            padding=15,
-            image=image,
+            width=170,
+            height=200,
+            bg='ivory'
         )
-        button.grid()
+        self.afficheWIN.create_image(10, 10, anchor=NW, image=image)
+
+        self.afficheWIN.grid(column=1)
+
+        self.rejouer = ttk.Button(
+            self,
+            text="REJOUER",
+            padding=20,
+            command=lambda x= 1: self.end_game(x)
+        )
+        # affichage des boutons du menu
+        self.rejouer.grid(column=0, row=2)
+
+        self.menu = ttk.Button(
+            self,
+            text="MENU",
+            padding=20,
+            command=lambda x= 2: self.end_game(x)
+        )
+        # affichage des boutons du menu
+        self.menu.grid(column=2, row=2)
+
+    def end_game(self, choix):
+        self.moteur.reset_board()
+        self.afficheWIN.destroy()
+        self.rejouer.destroy()
+        self.menu.destroy()
+        self.label.destroy()
+        self.empty_board()
+        if choix == 1:
+            self.label = tk.Label(self, text='Morpion')
+            self.label.grid(column=1)
+            self.create_buttons()
+        else: #egal à 2
+            self.root.main()
 
     def create_buttons(self):
         """(Ré)génère tout le plateau de jeu"""
