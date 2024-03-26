@@ -14,9 +14,9 @@ class Coords:
         return Coords(self.x + other_coords.x,
                       self.y + other_coords.y)
 
-    def inside(self, limits_x, limits_y):
-        return (limits_x[0] >= self.x <= limits_x[1]
-            and limits_y[0] >= self.y <= limits_y[1])
+    def outside(self, limits_x, limits_y):
+        return not (limits_x[0] <= self.x <= limits_x[1]
+            and limits_y[0] <= self.y <= limits_y[1])
 
     def get_cell(self, board):
         print(self.x , self.y)
@@ -66,7 +66,7 @@ class P4_moteur:
         countH = 0
         directionD = Coords(1, 0)
         directionG = Coords(-1, 0)
-        position = Coords(current_row, click_col)
+        position = Coords(click_col, current_row)
         countH = self.recursion(position, directionD, player)
         print(countH)
         countH += self.recursion(position, directionG, player)
@@ -77,10 +77,9 @@ class P4_moteur:
         return False
 
     def recursion(self, position: Coords, direction: Coords, player: Player) -> int:
-        new_pos = position + direction
-        print(position.x)
-        if new_pos.inside([-1, 6], [-1, 7]) or position.get_cell(self.board) != player:
+        if position.outside([0, 6], [0, 5]) or position.get_cell(self.board) != player:
             return 0
+        new_pos = position + direction
         return 1 + self.recursion(new_pos, direction, player)
 
     def reset_board(self):
