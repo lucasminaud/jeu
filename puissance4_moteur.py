@@ -27,6 +27,7 @@ class P4_moteur:
         self.current_player = Player.RATON
         self.board = [[Player.AUCUN for i in range(7)] for j in range(6)]
         self.winner = Player.AUCUN
+        self.nul = 0
 
     def place_symb(self, player: Player, column: int) -> int:
         """Add token on lowest row with an empty space"""
@@ -34,7 +35,7 @@ class P4_moteur:
         for row in reversed(self.board):
             if row[column] == Player.AUCUN:
                 row[column] = player
-                print('placer')
+                self.nul += 1
                 break
             else:
                 current_row -= 1
@@ -103,6 +104,9 @@ class P4_moteur:
             if count > 2:
                 self.winner = self.current_player
                 return True
+        if self.nul > 41:
+            self.winner = player.AUCUN
+            return True
         return False
 
     def recursion(self, position: Coords, direction: Coords, player: Player) -> int:
@@ -115,3 +119,4 @@ class P4_moteur:
     def reset_board(self):
         """reinitialise le plateau"""
         self.board = [[Player.AUCUN for i in range(7)] for j in range(6)]
+        self.nul = 0

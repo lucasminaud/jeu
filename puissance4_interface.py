@@ -20,12 +20,21 @@ class P4_interface(tk.Frame):
         self.label.grid(column=3)
 
         # integration des images
-        image_attente = Image.open("./assets/blanc.png").resize((30, 40), Image.NEAREST)
-        imageR = Image.open("./assets/raton.jpg").resize((30, 40), Image.NEAREST)
-        imageT = Image.open("./assets/tacos.jpg").resize((30, 40), Image.NEAREST)
+        #image pour Victoire
+        image_attente = Image.open("./assets/blanc.png").resize((150, 180), Image.NEAREST)
+        imageR = Image.open("./assets/raton.jpg").resize((150, 180), Image.NEAREST)
+        imageT = Image.open("./assets/tacos.jpg").resize((150, 180), Image.NEAREST)
+        self.root.blancV = ImageTk.PhotoImage(image=image_attente)
+        self.root.ratonV = ImageTk.PhotoImage(imageR)
+        self.root.tacosV = ImageTk.PhotoImage(imageT)
+        #image pour plateau
+        image_attente = image_attente.resize((30, 40), Image.NEAREST)
+        imageR = imageR.resize((30, 40), Image.NEAREST)
+        imageT = imageT.resize((30, 40), Image.NEAREST)
         self.root.blanc = ImageTk.PhotoImage(image=image_attente)
         self.root.raton = ImageTk.PhotoImage(imageR)
         self.root.tacos = ImageTk.PhotoImage(imageT)
+
 
         self.create_buttons()
 
@@ -37,6 +46,15 @@ class P4_interface(tk.Frame):
             return self.root.raton
         else:  # player == Player.TACOS
             return self.root.tacos
+
+    def get_corresponding_imageWIN(self, player) -> ImageTk.PhotoImage:
+        """Donne la correspondance entre un joueur et son image"""
+        if player == Player.AUCUN:
+            return self.root.blancV
+        elif player == Player.RATON:
+            return self.root.ratonV
+        else:  # player == Player.TACOS
+            return self.root.tacosV
 
     def empty_board(self):
         """Vide le plateau"""
@@ -57,9 +75,9 @@ class P4_interface(tk.Frame):
         self.empty_board()
         self.label.destroy()
         self.label = tk.Label(self, text='le Gagnant est ' + self.moteur.winner.name + '!')
-        self.label.grid()
+        self.label.grid(column=1)
 
-        image = self.get_corresponding_image(self.moteur.winner)
+        image = self.get_corresponding_imageWIN(self.moteur.winner)
         self.afficheWIN = Canvas(
             self,
             width=170,
@@ -96,8 +114,8 @@ class P4_interface(tk.Frame):
         self.label.destroy()
         self.empty_board()
         if choix == 1:
-            self.label = tk.Label(self, text='Morpion')
-            self.label.grid(column=1)
+            self.label = tk.Label(self, text='Puissance 4')
+            self.label.grid(column=3)
             self.create_buttons()
         else: #egal à 2
             self.root.main()
