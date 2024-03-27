@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 import morpion_interface as morp_UI
-#import puissance4  # TODO: delete
 import puissance4_interface as p4_UI
+import snake_interface as snake_UI
 import snake
 import solitaire
 
@@ -27,8 +27,7 @@ class App(tk.Tk):
             # Shhh, c'est notre petit secret ( ͡° ͜ʖ ͡°)
             ["morpion", self.display_morpion],
             ["puissance 4", self.display_p4],
-            #["puissance 4", puissance4.Puissance],  # TODO: del
-            ["snake", snake.Snake],
+            ["snake", self.display_snake],
             ["solitaire", solitaire.Solitaire],
             ["quiter", self.quite]
         ]
@@ -56,6 +55,9 @@ class App(tk.Tk):
     def display_p4(self, moncul):
         p4 = p4_UI.P4_interface(self)
         p4.grid()
+    def display_snake(self, monculv2):
+        snake = snake_UI.Snake_interface(self)
+        snake.grid()
 
     def delete_button_worker(self, cursed_data_structure):
         if isinstance(cursed_data_structure, ttk.Button):

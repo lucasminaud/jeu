@@ -19,7 +19,6 @@ class Coords:
             and limits_y[0] <= self.y <= limits_y[1])
 
     def get_cell(self, board):
-        print(self.x , self.y)
         return board[self.y][self.x]
 
 class P4_moteur:
