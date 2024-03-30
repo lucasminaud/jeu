@@ -3,7 +3,6 @@ from tkinter import ttk
 import morpion_interface as morp_UI
 import puissance4_interface as p4_UI
 import snake_interface as snake_UI
-import snake
 import solitaire
 
 

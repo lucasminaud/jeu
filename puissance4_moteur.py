@@ -55,18 +55,6 @@ class P4_moteur:
         """verifie si le pion poser créé une ligne gagnante"""
         position = Coords(click_col, current_row)
 
-        #verification de victoire VERTICAL (first methode)
-        #####
-        #print("click sa mere")
-        #count = 1
-        #for k in range(1,4):
-        #    if current_row+k <=5 and self.board[current_row + k][click_col] == player:
-        #        count += 1
-        #if count > 3:
-        #    self.winner = self.current_player
-        #    return True
-        #####
-
         #on defini les directions pour les diferentes verifs
         # verif vertical
         countV = 0
