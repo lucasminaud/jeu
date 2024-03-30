@@ -33,16 +33,31 @@ class Snake_moteur:
     def next_move(self, snake, fruit):
         x, y = snake.coords[0]
         x, y = x + self.direction.value.x, y + self.direction.value.y
+        print(self.direction.name)
         return x, y
-
-    def place_snake(self):
-        self.move()
-        pass
-    def move(self):
+    def move(self, direction):
         """fait avancer le serpent"""
-    def grow_up(self):
+        if direction == 1:
+            print("test1")
+            self.direction = Direction.HAUT
+        elif direction == 2:
+            print("test1")
+            self.direction = Direction.GAUCHE
+        elif direction == 3:
+            print("test1")
+            self.direction = Direction.DROITE
+        elif direction == 4:
+            print("test1")
+            self.direction = Direction.BAS
+    def grow_up(self, snake, fruit) -> bool:
         """fait grandir le serpent si il mange une pomme"""
-        pass
+        xs, ys = snake.coords[0]
+        xf = fruit.coords[0]
+        yf = fruit.coords[1]
+        if xs-xf == 0 and ys-yf == 0:
+            print("MIAMMMMMM")
+            return True
+
 
 
     #savoir si une fonction pour tout mouv ou une fonction par mouvement

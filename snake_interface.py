@@ -25,11 +25,10 @@ class Snake_interface(tk.Frame):
             height=self.HEIGHT,
             bg='white'
         )
-        self.root.update()
-        self.board.bind("<Key-Up>", lambda: self.moteur.move())
-        self.board.bind("<Key-Left>", lambda event: self.moteur.move)
-        self.board.bind("<Key-Right>", lambda event: self.moteur.move)
-        self.board.bind("<Key-Down>", lambda event: self.moteur.move)
+        self.root.bind("<Up>", lambda event: self.moteur.move(1))
+        self.root.bind("<Left>", lambda event: self.moteur.move(2))
+        self.root.bind("<Right>", lambda event: self.moteur.move(3))
+        self.root.bind("<Down>", lambda event: self.moteur.move(4))
         self.board.grid()
         self.start()
 
@@ -50,15 +49,14 @@ class Snake_interface(tk.Frame):
         print(snake.coords, 'coordinates')
         print(body, 'body')
         snake.bodys.insert(0, body)
-        print("test")
 
-        del snake.coords[-1]
-
-        self.board.delete(snake.bodys[-1])
-
-        del snake.bodys[-1]
-
-        self.root.after(2000, self.next_move, snake, fruit)
+        if self.moteur.grow_up(snake, fruit) != True:
+            del snake.coords[-1]
+            self.board.delete(snake.bodys[-1])
+            del snake.bodys[-1]
+        else:
+            fruit = Fruit(self)
+        self.root.after(150, self.next_move, snake, fruit)
 
 
 
@@ -69,10 +67,10 @@ class Fruit:
     def __init__(self,plateau: Snake_interface):
         self.plateau = plateau
 
-        x = random.randint(0,
-                           self.plateau.WIDTH - 1)
-        y = random.randint(0,
-                           self.plateau.HEIGHT - 1)
+        x = random.randint(0, self.plateau.WIDTH/10)
+        x = x*10
+        y = random.randint(0, self.plateau.WIDTH/10)
+        y = y*10
         self.coords = [x, y]
         self.plateau.board.create_oval(
             x, y, x + 10, y + 10, fill="red"
